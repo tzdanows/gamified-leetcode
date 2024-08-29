@@ -15,4 +15,6 @@ logs:
 clean:
 	docker-compose down -v --rmi all --remove-orphans
 
+start: build up
+
 # add more as needed

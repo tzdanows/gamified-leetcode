@@ -1,3 +1,5 @@
+# I think this might be unnecessary? and rather we might need an authentication service & api
+
 from flask import Blueprint, jsonify, current_app
 from ..services.firebase_services import get_user_accounts
 from ..services.leetcode_service import check_problem_completion

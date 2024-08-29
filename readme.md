@@ -17,11 +17,6 @@ This project is a gamified coding challenge web application inspired by Advent o
 - Docker for containerization
 - Third party leetcode api
 
-## Running the application
-
-- TODO
-
-
 ## Docker Setup Instructions
 
 ### Prerequisites
