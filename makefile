@@ -14,6 +14,7 @@ logs:
 
 clean:
 	docker-compose down -v --rmi all --remove-orphans
+	docker image prune
 
 start: build up
 
