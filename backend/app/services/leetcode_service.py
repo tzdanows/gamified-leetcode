@@ -8,8 +8,7 @@ def check_problem_completion(leetname, problem_title):
     
     for i in range(min(20, len(my_dict['submission']))):
         if my_dict['submission'][i]['title'] == problem_title:
-            if my_dict['submission'][i]['statusDisplay'] == 'Accepted':
-                return True
+            return True
     return False
 
 # Add more LeetCode-related functions here as needed
