@@ -19,9 +19,11 @@ def create_app(config_name):
     
     # blueprints/resources here
     from .api.users import users_bp
+    from .api.leaderboard import leaderboard_bp
     from .api.dailies import dailies_bp
     
     app.register_blueprint(users_bp)
+    app.register_blueprint(leaderboard_bp)
     app.register_blueprint(dailies_bp)
     
     return app
