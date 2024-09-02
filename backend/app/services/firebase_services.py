@@ -48,6 +48,7 @@ def update_leaderboard_info(db):
         if username not in awarded_users and check_problem_completion(leetcode_name, problem_title):
             user_ref = db.collection("leaderboard").document(username)
             user_ref.update({"score": firestore.Increment(points)})
+            user_ref.update({"problems_solved": firestore.Increment(1)})
 
             # update array of awarded users to avoid double counting points
             problem_ref = db.collection("dailies").document(todays_date)
