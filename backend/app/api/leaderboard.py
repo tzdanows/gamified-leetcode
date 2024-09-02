@@ -1,10 +1,12 @@
 # we should expose objects pertaining to the leaderboard here
 # we also need a service to handle the calculations
 
-from flask import Blueprint
+from flask import Blueprint, jsonify, current_app
+from ..services.firebase_services import get_leaderboard_info
 
-challenges_bp = Blueprint('leaderboard', __name__)
+leaderboard_bp = Blueprint('leaderboard', __name__)
 
-@challenges_bp.route('/leaderboard', methods=['GET'])
+@leaderboard_bp.route('/leaderboard', methods=['GET'])
 def get_leaderboard():
-    return "Leaderboard endpoint"
+    leaderboard = get_leaderboard_info(current_app.db)
+    return jsonify(leaderboard)
