@@ -7,7 +7,7 @@ def get_user_accounts(db):
     return [doc.to_dict() for doc in docs]
 
 # access leaderboard table in firestore
-def get_leaderboard(db):
+def get_leaderboard_info(db):
     users_ref = db.collection("leaderboard")
     docs = users_ref.stream()
     return [doc.to_dict() for doc in docs]
