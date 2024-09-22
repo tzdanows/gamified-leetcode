@@ -2,7 +2,7 @@ from firebase_admin import firestore
 from google.cloud.firestore_v1.base_query import FieldFilter
 from google.cloud.firestore_v1 import ArrayUnion
 from ..services.leetcode_service import check_problem_completion
-import datetime
+from datetime import datetime, timedelta
 
 # access user account table in firestore
 def get_user_accounts(db):
@@ -28,6 +28,8 @@ def update_leaderboard_info(db):
     # format today's date to match date info in dailies table
     #todays_date = str(datetime.datetime.now())[:10]
     todays_date = '2024-09-03'
+    #yesterdays_date = str(datetime.datetime.now() - timedelta(days=1))[:10]
+    yesterdays_date = '2024-09-02'
     
     # access today's problem
     problem = db.collection("dailies").where(filter=FieldFilter("date", "==", todays_date)).stream()
@@ -37,16 +39,26 @@ def update_leaderboard_info(db):
     problem_title = problem_info['problem_name']
     awarded_users = problem_info['awarded']
 
+    # access yesterday's problem
+    yesterdays_problem = db.collection("dailies").where(filter=FieldFilter("date", "==", yesterdays_date)).stream()
+    for doc in yesterdays_problem:
+        yesterdays_problem_info = doc.to_dict()
+    yesterdays_awarded_users = yesterdays_problem_info['awarded']
+
     # iterate through each user 
     users = db.collection("user_accounts").stream()
     for doc in users:
         user_info = doc.to_dict()
         leetcode_name = user_info['leetcode_name']
         username = user_info['username']
-        
+
+        user_ref = db.collection("leaderboard").document(username)
+
+        if username not in yesterdays_awarded_users:
+            user_ref.update({"current_streak": 0})
+
         # if they completed the problem and have not been awarded yet, update their score
         if username not in awarded_users and check_problem_completion(leetcode_name, problem_title):
-            user_ref = db.collection("leaderboard").document(username)
             user_ref.update({"score": firestore.Increment(points)})
             user_ref.update({"problems_solved": firestore.Increment(1)})
 
@@ -54,4 +66,11 @@ def update_leaderboard_info(db):
             problem_ref = db.collection("dailies").document(todays_date)
             problem_ref.update({"awarded": firestore.ArrayUnion([username])})
 
-            #insert logic for streaks
+            # insert logic for streaks
+            if username in yesterdays_awarded_users:
+                user_ref.update({"current_streak": firestore.Increment(1)})
+            else:
+                user_ref.update({"current_streak": 1})
+
+        
+
