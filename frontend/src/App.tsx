@@ -1,16 +1,23 @@
 import React from 'react';
-import './App.css';
-import Auth from './Auth';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import Home from './components/Home';
+import Dailies from './components/Dailies';
+import Leaderboard from './components/Leaderboard';
+import Profile from './components/Profile';
 
 const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>LeetCode Gamified</h1>
-        <Auth />
-      </header>
-    </div>
-  );
+    return (
+        <Router>
+            <Header />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/dailies" element={<Dailies />} />
+                <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route path="/profile" element={<Profile />} />
+            </Routes>
+        </Router>
+    );
 };
 
 export default App;
