@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { auth } from './firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 
 const Auth: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -14,15 +14,25 @@ const Auth: React.FC = () => {
 
         try {
             if (isLogin) {
-                // login
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const idToken = await userCredential.user.getIdToken();
                 console.log("ID Token:", idToken);
-                // send the ID token to your backend for verification
             } else {
-                // sign Up
                 await createUserWithEmailAndPassword(auth, email, password);
             }
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            }
+        }
+    };
+
+    const handleGoogleSignIn = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const idToken = await result.user.getIdToken();
+            console.log("Google ID Token:", idToken);
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -54,6 +64,9 @@ const Auth: React.FC = () => {
             <button onClick={() => setIsLogin(!isLogin)}>
                 Switch to {isLogin ? 'Sign Up' : 'Login'}
             </button>
+            <div>
+                <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+            </div>
         </div>
     );
 };
