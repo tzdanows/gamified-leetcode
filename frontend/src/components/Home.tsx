@@ -1,15 +1,24 @@
 import React from 'react';
 import Auth from '../Auth';
+import { Button } from "../components/ui/button"
 
 const Home: React.FC = () => {
     return (
-        <div>
-            <h1>LeetCode Gamified</h1>
-            <p>
-                This project is a gamified coding challenge web application inspired by Advent of Code's approach in releasing problems, but using LeetCode problems. Users can participate in daily challenges, track their progress on a leaderboard, and improve their coding skills while coordinating LeetCode contests with fellow peers.
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Auth />
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+                <h1 className="text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-8">
+                    LeetCode is more fun together.
+                </h1>
+                <p className="mt-2 text-center text-xl text-gray-600 dark:text-gray-300 mb-12">
+                    Starting a leetcode study group has never been easier
+                </p>
+                <div className="mt-10">
+                    <Auth />
+                </div>
+                <div className="mt-8 flex justify-center space-x-4">
+                    <Button variant="outline">Forgot your username?</Button>
+                    <Button variant="outline">Forgot your password?</Button>
+                </div>
             </div>
         </div>
     );

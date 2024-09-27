@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Dailies from './components/Dailies';
 import Leaderboard from './components/Leaderboard';
 import Profile from './components/Profile';
+import './globals.css'
 
 const App: React.FC = () => {
     return (

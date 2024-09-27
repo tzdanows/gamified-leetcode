@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { auth } from './firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { Button } from "components/ui/button"
+import { Input } from "components/ui/input"
 
 const Auth: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -41,31 +43,43 @@ const Auth: React.FC = () => {
     };
 
     return (
-        <div>
-            <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
-            <form onSubmit={handleSubmit}>
-                <input
+        <div className="w-full max-w-md mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-8">
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+                {isLogin ? 'Login' : 'Sign Up'}
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <Input
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    className="w-full"
                 />
-                <input
+                <Input
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    className="w-full"
                 />
-                <button type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
-                {error && <p>{error}</p>}
+                <Button type="submit" className="w-full">
+                    {isLogin ? 'Login' : 'Sign Up'}
+                </Button>
+                {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             </form>
-            <button onClick={() => setIsLogin(!isLogin)}>
+            <Button
+                variant="outline"
+                className="w-full mt-4"
+                onClick={() => setIsLogin(!isLogin)}
+            >
                 Switch to {isLogin ? 'Sign Up' : 'Login'}
-            </button>
-            <div>
-                <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+            </Button>
+            <div className="mt-4">
+                <Button variant="outline" className="w-full" onClick={handleGoogleSignIn}>
+                    Sign in with Google
+                </Button>
             </div>
         </div>
     );
