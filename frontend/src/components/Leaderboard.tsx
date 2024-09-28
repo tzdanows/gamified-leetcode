@@ -1,15 +1,33 @@
-import React from 'react';
-
-// mock data: TODO implement this to populate from database
-const leaderboardData = [
-  { username: 'SNO', points: 1538 },
-  { username: 'Emopigs', points: 1530 },
-  { username: 'Nick', points: 1420 },
-  { username: 'Gambino', points: 1337 },
-  { username: 'PRIME', points: 1337 },
-];
+import React, { useEffect, useState } from 'react';
 
 const Leaderboard: React.FC = () => {
+  const [leaderboardData, setLeaderboardData] = useState<
+    { username: string; points: number }[]
+  >([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // backend endpoint
+        const response = await fetch('http://localhost:5001/leaderboard');
+        const data = await response.json();
+        
+        console.log('Fetched data:', data); // Should show the response from the server
+
+        // Transform backend data to match the front-end requirement
+        const transformedData = data.map((user: any) => ({
+          username: user.username,
+          points: user.score,
+        }));
+        setLeaderboardData(transformedData);
+      } catch (error) {
+        console.error('Error fetching leaderboard data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold mb-6">Leaderboard</h2>

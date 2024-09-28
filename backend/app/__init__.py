@@ -2,9 +2,12 @@ from flask import Flask
 from flask_restful import Api
 from firebase_admin import credentials, initialize_app, firestore
 import os
+# need this to connect to front-end
+from flask_cors import CORS
 
 def create_app(config_name):
     app = Flask(__name__)
+    CORS(app)  # Enable CORS for all routes
     
     app.config.from_object(f'config.{config_name.capitalize()}Config')
     

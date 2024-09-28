@@ -15,7 +15,8 @@ def get_user_accounts(db):
 def get_leaderboard_info(db):
     update_leaderboard_info(db)
     leaderboard_ref = db.collection("leaderboard")
-    docs = leaderboard_ref.stream()
+    query = leaderboard_ref.order_by("score", direction=firestore.Query.DESCENDING)
+    docs = query.stream()
     return [doc.to_dict() for doc in docs]
 
 # access dailies table in firestore
