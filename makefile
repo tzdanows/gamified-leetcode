@@ -16,6 +16,18 @@ clean:
 	docker-compose down -v --rmi all --remove-orphans
 	docker image prune
 
-start: build up
-
 # add more as needed
+
+dcu:
+	docker-compose up --build
+
+logs:
+	docker-compose logs -f
+
+logsbe:
+	docker-compose logs backend
+
+logsfe:
+	docker-compose logs frontend
+
+start: build up

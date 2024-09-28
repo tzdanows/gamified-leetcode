@@ -17,11 +17,13 @@ def create_app(config_name):
     
     api = Api(app)
     
-    # blueprints/resources here
+    # Register blueprints
+    from .api.auth import auth_bp
     from .api.users import users_bp
     from .api.leaderboard import leaderboard_bp
     from .api.dailies import dailies_bp
     
+    app.register_blueprint(auth_bp)
     app.register_blueprint(users_bp)
     app.register_blueprint(leaderboard_bp)
     app.register_blueprint(dailies_bp)
