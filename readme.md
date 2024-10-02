@@ -3,21 +3,13 @@
 This project is a gamified coding challenge web application inspired by Advent of Code's approach in releasing problems, but using LeetCode problems. Users can participate in daily challenges, track their progress on a leaderboard, and improve their coding skills while coordinating leetcode contests with fellow peers.
 
 ## Technologies Used
-
-### Frontend
-- React
-- TypeScript
-- tbd..
-
-### Backend
+- React + TypeScript
 - Flask (Python)
-- Firebase Firestore + Authentication
+- Firebase data store + authentication
+- Docker
+- [Leetcode api](https://alfa-leetcode-api.onrender.com/)
 
-### Other Tools
-- Docker for containerization
-- Third party leetcode api
-
-## Docker Setup Instructions
+## Setup Instructions
 
 ### Prerequisites
 - Docker
@@ -38,18 +30,14 @@ This project is a gamified coding challenge web application inspired by Advent o
 
 3. Build and start the Docker containers:
    ```
-   docker-compose up --build
+   make dcu
    ```
 
    This command will build the Docker images for both the backend and frontend, and start the containers. The first time you run this, it may take a few minutes to download and build everything.
 
 4. Once the containers are running, you can access:
-   - The backend at `http://localhost:5000`
+   - The backend at `http://localhost:5001`
    - The frontend at `http://localhost:3000`
-
-### Development Workflow
-
-- The Docker setup uses volumes to mount your local directories into the containers. This means you can make changes to your code and see the results immediately, without having to rebuild the containers.
 
 - If you add new dependencies:
   - For the backend: Update `requirements.txt` and rebuild the backend container with `docker-compose up --build backend`
