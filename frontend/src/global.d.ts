@@ -6,3 +6,6 @@ declare module 'clsx' {
   declare module 'tailwind-merge' {
     export function twMerge(...inputs: string[]): string;
   }
+
+  declare module '@radix-ui/react-select';
+  declare module '@radix-ui/react-separator';

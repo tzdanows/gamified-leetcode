@@ -23,8 +23,18 @@ def get_leaderboard_info(db):
 def get_dailies_info(db):
     dailies_ref = db.collection("dailies")
     docs = dailies_ref.stream()
-    return [doc.to_dict() for doc in docs]
+    return [
+        {
+            "date": doc.to_dict().get("date"),
+            "difficulty": doc.to_dict().get("difficulty"),
+            "link": doc.to_dict().get("link"),
+            "problem_name": doc.to_dict().get("problem_name"),
+            "awarded": doc.to_dict().get("awarded"),
+        }
+        for doc in docs
+    ]
 
+# currently not used
 def update_leaderboard_info(db):
     # format today's date to match date info in dailies table
     #todays_date = str(datetime.datetime.now())[:10]
@@ -73,5 +83,6 @@ def update_leaderboard_info(db):
             else:
                 user_ref.update({"current_streak": 1})
 
-        
+
+
 
