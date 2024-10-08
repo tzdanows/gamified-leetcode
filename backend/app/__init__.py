@@ -25,10 +25,12 @@ def create_app(config_name):
     from .api.users import users_bp
     from .api.leaderboard import leaderboard_bp
     from .api.dailies import dailies_bp
+    from .api.contests import contests_bp
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(users_bp)
     app.register_blueprint(leaderboard_bp)
     app.register_blueprint(dailies_bp)
+    app.register_blueprint(contests_bp)
     
     return app
