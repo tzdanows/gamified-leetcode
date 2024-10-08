@@ -5,7 +5,6 @@ import { Button } from "../components/ui/button";
 import { CheckCircle, XCircle, Circle, User } from "lucide-react";
 import { Separator } from "../components/ui/separator";
 import leetcodeLogo from '../assets/leetcode-logo.svg';
-import { log } from 'console';
 
 // status types for problem completion check status bar
 type ProblemStatus = 'incomplete' | 'unchecked' | 'complete';
