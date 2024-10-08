@@ -5,6 +5,7 @@ import { Button } from "../components/ui/button";
 import { CheckCircle, XCircle, Circle, User } from "lucide-react";
 import { Separator } from "../components/ui/separator";
 import leetcodeLogo from '../assets/leetcode-logo.svg';
+import { log } from 'console';
 
 // status types for problem completion check status bar
 type ProblemStatus = 'incomplete' | 'unchecked' | 'complete';
@@ -33,6 +34,9 @@ type LeaderboardData = {
   problemsSolved: number;
   currentStreak: number;
 };
+
+// Replace this with actual username from auth context 
+const loggedInUsername = "PRIME";
 
 // current implementation uses the dailies collection, not contests for problems and etc..
 const Dailies: React.FC = () => {
@@ -85,18 +89,28 @@ const Dailies: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // check if the leetcode problem is complete (not tested)
+  // check if the leetcode problem is complete 
   const handleCheckCompletion = async () => {
-    if (leetname && selectedContest) {
-      const isComplete = await checkProblemCompletion(leetname, selectedContest.currentDaily.title);
+    if (loggedInUsername && selectedContest) {
+      const isComplete = await checkProblemCompletion(loggedInUsername, selectedContest.currentDaily.title);
       setProblemStatus(isComplete ? 'complete' : 'incomplete');
     }
   };
 
-  const checkProblemCompletion = async (leetname: string, problemTitle: string) => {
-    const response = await fetch(`http://localhost:5001/check_problem_completion?leetname=${leetname}&problem_title=${problemTitle}`);
+  const checkProblemCompletion = async (loggedInUsername: string, problemTitle: string) => {
+    await fetchLeaderboard();
+    const response = await fetch(`http://localhost:5001/dailies`);
     const data = await response.json();
-    return data.completed; // adjust based on backend response
+
+    // Find the problem entry that matches the provided title
+    const problemEntry = data.find((problem: any) => problem.problem_name === problemTitle);
+  
+    // Check if the user is in the awarded array for the matching problem
+    if (problemEntry) {
+      return problemEntry.awarded.includes(loggedInUsername); // Returns true if the leetname is found
+    }
+
+    return false; // Returns false if no matching problem entry is found
   };
 
   // fetches leader from exposed leaderboard api
